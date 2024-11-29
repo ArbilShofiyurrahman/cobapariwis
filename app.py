@@ -26,6 +26,9 @@ vectorizers = {
     "masakan": joblib.load('tfidf_vectorizer_masakan.pkl')
 }
 
+# Load the 'finish_setelah_preprocessing.xlsx' file
+df = pd.read_excel('finish_setelah_preprocessing.xlsx')
+
 def main():
     st.title("Sistem Prediksi Aspek dan Sentimen dengan Random Forest")
     st.markdown("### Sistem ini memprediksi:\n- **Aspek**: Fasilitas, Pelayanan, Masakan\n- **Sentimen**: Positif atau Negatif")
