@@ -1,6 +1,4 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
 import re
 import joblib
 import os
@@ -22,7 +20,6 @@ def load_model(file_path):
 
 # Memuat Model Aspek dan Sentimen
 aspect_model = load_model('random_forest_model_aspek.pkl')
-
 sentiment_models = {
     "fasilitas": load_model('model_random_forest_fasilitas.pkl'),
     "pelayanan": load_model('model_random_forest_pelayanan.pkl'),
@@ -47,14 +44,21 @@ def main():
         processed_text = preprocess_text(user_input)
         
         # Prediksi Aspek
-        predicted_aspect = aspect_model.predict([processed_text])[0]
+        try:
+            predicted_aspect = aspect_model.predict([processed_text])[0]
+        except ValueError:
+            st.error("Format data tidak sesuai untuk model aspek.")
+            return
         
         # Prediksi Sentimen berdasarkan Aspek
         if predicted_aspect in sentiment_models:
             sentiment_model = sentiment_models[predicted_aspect]
-            predicted_sentiment = sentiment_model.predict([processed_text])[0]
-            st.write(f"**Aspek**: {predicted_aspect.capitalize()}")
-            st.write(f"**Sentimen**: {predicted_sentiment.capitalize()}")
+            try:
+                predicted_sentiment = sentiment_model.predict([processed_text])[0]
+                st.write(f"**Aspek**: {predicted_aspect.capitalize()}")
+                st.write(f"**Sentimen**: {predicted_sentiment.capitalize()}")
+            except ValueError:
+                st.error("Format data tidak sesuai untuk model sentimen.")
         else:
             st.error("Aspek tidak dikenali.")
 
