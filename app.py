@@ -12,7 +12,7 @@ def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text)  # Hilangkan spasi berlebih
     return text
 
-# Load model klasifikasi aspek Model 1
+# Load model klasifikasi aspek (Model 1)
 aspect_model = joblib.load('random_forest_model_aspek.joblib')
 
 # Load model klasifikasi sentimen (Model 2, 3, dan 4)
