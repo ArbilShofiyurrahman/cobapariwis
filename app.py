@@ -11,7 +11,7 @@ def preprocess_text(text):
     return text
 
 # Memuat Model Random Forest
-aspect_model = joblib.load('random_forest_model_aspek.pkl')
+aspect_model = joblib.load('aspek.pkl')
 
 sentiment_models = {
     "fasilitas": joblib.load('model_random_forest_fasilitas.pkl'),
@@ -21,7 +21,7 @@ sentiment_models = {
 
 # Memuat TF-IDF Vectorizer
 vectorizers = {
-    "aspek": joblib.load('model_tfidf_aspek.pkl'),
+    "aspek": joblib.load('tfidfaspek.pkl'),
     "fasilitas": joblib.load('tfidf_vectorizer_fasilitas.pkl'),
     "pelayanan": joblib.load('tfidf_vectorizer_pelayanan.pkl'),
     "masakan": joblib.load('tfidf_vectorizer_masakan.pkl')
