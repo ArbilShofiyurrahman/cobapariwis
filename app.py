@@ -44,10 +44,6 @@ def main():
         aspect_vectorized = vectorizers["aspek"].transform([processed_text])
         predicted_aspect = aspect_model.predict(aspect_vectorized)[0]
         
-        # Validasi aspek
-        if predicted_aspect not in vectorizers:
-            predicted_aspect = "fasilitas"  # Default aspek jika tidak cocok
-        
         # Prediksi Sentimen
         sentiment_vectorizer = vectorizers[predicted_aspect]
         sentiment_model = sentiment_models[predicted_aspect]
