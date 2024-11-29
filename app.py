@@ -5,9 +5,9 @@ import joblib
 
 # Fungsi Preprocessing
 def preprocess_text(text):
-    text = text.lower()
-    text = re.sub(r'[^a-zA-Z\s]', '', text)
-    text = re.sub(r'\s+', ' ', text)
+    text = text.lower()  # Ubah ke huruf kecil
+    text = re.sub(r'[^a-zA-Z\s]', '', text)  # Hilangkan karakter non-alfabet
+    text = re.sub(r'\s+', ' ', text)  # Hilangkan spasi berlebih
     return text
 
 # Memuat Model Random Forest
@@ -44,20 +44,23 @@ def main():
         aspect_vectorized = vectorizers["aspek"].transform([processed_text])
         predicted_aspect = aspect_model.predict(aspect_vectorized)[0]
         
-        # Periksa validitas aspek
-        if predicted_aspect not in vectorizers:
-            st.error(f"Aspek '{predicted_aspect}' tidak dikenali. Harap periksa model.")
-        else:
-            # Prediksi Sentimen
-            sentiment_vectorizer = vectorizers[predicted_aspect]
-            sentiment_model = sentiment_models[predicted_aspect]
-            sentiment_vectorized = sentiment_vectorizer.transform([processed_text])
-            predicted_sentiment = sentiment_model.predict(sentiment_vectorized)[0]
+        # Normalisasi prediksi aspek ke huruf kecil
+        predicted_aspect = predicted_aspect.lower()
         
-            # Menampilkan hasil prediksi
-            st.write(f"**Aspek**: {predicted_aspect.capitalize()}")
-            st.write(f"**Sentimen**: {predicted_sentiment.capitalize()}")
-
+        # Validasi aspek
+        if predicted_aspect not in vectorizers:
+            st.error(f"Aspek '{predicted_aspect}' tidak dikenali. Harap periksa model atau file vectorizer.")
+            st.stop()
+        
+        # Prediksi Sentimen
+        sentiment_vectorizer = vectorizers[predicted_aspect]
+        sentiment_model = sentiment_models[predicted_aspect]
+        sentiment_vectorized = sentiment_vectorizer.transform([processed_text])
+        predicted_sentiment = sentiment_model.predict(sentiment_vectorized)[0]
+        
+        # Menampilkan hasil prediksi
+        st.write(f"**Aspek**: {predicted_aspect.capitalize()}")
+        st.write(f"**Sentimen**: {predicted_sentiment.capitalize()}")
 
 # Menjalankan aplikasi
 if __name__ == "__main__":
