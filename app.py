@@ -13,7 +13,7 @@ def preprocess_text(text):
     return text
 
 # Load model klasifikasi aspek (Model 1)
-aspect_model = joblib.load('random_forest_model_aspek.joblib')
+aspect_model = joblib.load('random_forest_model_aspek.pkl')
 
 # Load model klasifikasi sentimen (Model 2, 3, dan 4)
 sentiment_models = {
